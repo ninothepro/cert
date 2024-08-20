@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Preview</title>
+</head>
+<body>
+    <h1>HTML Preview</h1>
+    <div id="preview"></div>
+    <script>
+        // Get the URL path
+        const path = window.location.pathname.substring(1);
+
+        if (path) {
+            // Fetch the corresponding HTML file
+            fetch(`previews/${path}.html`)
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        throw new Error('File not found');
+                    }
+                })
+                .then(html => {
+                    // Inject the HTML into the page
+                    document.getElementById('preview').innerHTML = html;
+                })
+                .catch(error => {
+                    document.getElementById('preview').textContent = error.message;
+                });
+        } else {
+            document.getElementById('preview').textContent = "No file specified.";
+        }
+    </script>
+</body>
+</html>
